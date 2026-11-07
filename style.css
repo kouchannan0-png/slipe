@@ -1,0 +1,271 @@
+:root {
+  --bg: #ece6d8;
+  --surface: #f7f3e8;
+  --ink: #26241e;
+  --ink-soft: #5c584c;
+  --line: #26241e;
+  --center-tint: #ddd0ae;
+  --p1: #2f6f5e;
+  --p1-soft: #dfe9e3;
+  --p2: #b5502a;
+  --p2-soft: #f1ddd2;
+  --gold: #d9a441;
+  --radius-sharp: 2px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 16px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.title {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 800;
+  font-size: 32px;
+  margin: 0;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+}
+
+main {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading {
+  font-size: 14px;
+  color: var(--ink-soft);
+  padding: 40px 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#game {
+  width: 100%;
+}
+
+.status-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.turn-chip {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1.5px solid var(--ink);
+}
+
+.turn-chip.p1 { background: var(--p1); }
+.turn-chip.p2 { background: var(--p2); }
+
+.status-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.board {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+  background: var(--line);
+  border: 2px solid var(--line);
+  margin-bottom: 20px;
+}
+
+.cell {
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cell.center {
+  background: var(--center-tint);
+}
+
+.cell.selectable {
+  cursor: pointer;
+}
+
+.cell.selected::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 2px solid var(--gold);
+}
+
+.piece {
+  width: 68%;
+  height: 68%;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.piece.p1 { background: var(--p1); }
+.piece.p2 { background: var(--p2); }
+
+.piece .king-mark {
+  width: 38%;
+  height: 38%;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: transparent;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.dpad {
+  display: grid;
+  grid-template-columns: 56px 56px 56px;
+  grid-template-rows: 56px 56px 56px;
+  gap: 6px;
+  justify-content: center;
+}
+
+.dpad-btn {
+  font-family: inherit;
+  font-size: 18px;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.dpad-btn:active:not(:disabled) {
+  transform: scale(0.92);
+  background: var(--gold);
+}
+
+.dpad-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-center {
+  grid-column: 2; grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.dpad-right { grid-column: 3; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 3; }
+
+.reset-btn {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 10px 22px;
+  background: transparent;
+  border: 1.5px solid var(--ink-soft);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.reset-btn:active {
+  background: var(--ink-soft);
+  color: var(--surface);
+}
+
+.app-footer {
+  margin-top: 28px;
+  font-size: 12px;
+}
+
+.app-footer a {
+  color: var(--ink-soft);
+  text-decoration: underline;
+}
+
+@media (max-width: 380px) {
+  .title { font-size: 26px; }
+  .dpad { grid-template-columns: 48px 48px 48px; grid-template-rows: 48px 48px 48px; }
+}
+
+.game {
+  width: 100%;
+}
+
+.mode-row {
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.mode-btn {
+  flex: 1;
+  font-family: inherit;
+  font-size: 13px;
+  min-height: 44px;
+  padding: 0 4px;
+  background: transparent;
+  border: 1.5px solid var(--ink-soft);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.mode-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+}
